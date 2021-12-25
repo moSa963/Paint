@@ -1,0 +1,79 @@
+p {
+    color: aliceblue;
+}
+
+.clickable:hover {
+    background-color: rgba(121, 121, 121, 0.8) !important;
+}
+
+nav{
+    background-color:#403c3ff1;
+}
+
+#toolBar{
+    background-color: rgb(59, 59, 59, 0.8);
+}
+
+#workplace{
+    background-color: #5a5a5a;
+}
+
+#toolBar li {
+    background-color: rgba(95, 95, 95, 0.301);
+}
+
+#canvasContainer{
+    background-color: #202020;
+    background-image: url("../res/canvBackDark.svg");
+
+}
+
+.textInput {
+    background-color: rgba(110, 110, 110, 0);
+    border: 1px solid rgba(185, 185, 185, 0.671);
+    color: aliceblue;
+}
+
+.textInput::placeholder {
+    color: rgb(196, 196, 196);
+}
+
+.layer {
+    background-color: #6d6d6d60;
+}
+
+.layerCard {
+    background-color: aliceblue;
+}
+
+.layerCard h2 {
+    color: #5a5a5a;
+}
+
+.cardNav {
+    background-color: #a1a1a138;
+}
+
+.cardBody {
+    background-color: rgb(85, 85, 85);
+    color: #000000 !important;
+}
+
+
+#options ul {
+    color: #000000 !important;
+}
+
+#infoCard , h2{
+    color: #ffffff !important;
+}
+
+
+#cursor{
+    border-color: #ffffff;
+}
+
+
+svg{
+    fill: rgb(199, 199, 199);
+}
