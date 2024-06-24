@@ -11,14 +11,14 @@ const compareColors = (c1, c2)=>{
     return c1[0] === c2[0] && c1[1] === c2[1] && c1[2] === c2[2] && c1[3] === c2[3];
 }
 
-//class that control the drawing operation needs two canvas one as buffer and the other is the main
-class CanvasControler{
+class CanvasController{
     constructor(mainCanv, bufferCanv){
         this.mainCanv = new Canvas(mainCanv);
         this.bufferCanv = new Canvas(bufferCanv);
         this.startPoint = null;
-        this.history = new HistoryQueue(20);
+        this.history = new HistoryQueue(100);
         this.tool = null;
+        this.history.add(this.mainCanv.newBackup());
     }
 
     setData(tool){
@@ -28,7 +28,7 @@ class CanvasControler{
         this.bufferCanv.setData(tool.color, tool.size);
     }
 
-    onClick(point, isCtrlHold, isShiftHold){
+    onClick(point){
         if (this.tool.type == "mesh"){
             this.startPoint = point;
             this.bufferCanv.drawLine(point, new Point(point.x + 1, point.y+1));
@@ -57,7 +57,7 @@ class CanvasControler{
         }
     }
 
-    onRelese(event){    
+    onRelease(event){    
         canvasControler.endDraw();
     }
 
@@ -104,42 +104,44 @@ class CanvasControler{
     fill(point){
         const colorString = this.tool.color;
 
-        const color = [
-            parseInt('0x' + colorString.charAt(1) + colorString.charAt(2)), 
-            parseInt('0x' + colorString.charAt(3) + colorString.charAt(4)), 
-            parseInt('0x' + colorString.charAt(5) + colorString.charAt(6)), 
-            255,
+        const color  = [
+            parseInt(colorString.slice(1, 3), 16),
+            parseInt(colorString.slice(3, 5), 16),
+            parseInt(colorString.slice(5, 7), 16),
+            255
         ];
-
-        const imgData = this.mainCanv.getImageData();
+        
+        const imgData = this.mainCanv.getImageData(true);
         const data = imgData.data;
         const queue = new Array();
-        const index = pointToIndex(point, this.mainCanv.getWidth()) * 4;
+        const width = this.mainCanv.getWidth();
+        const height = this.mainCanv.getHeight();
+        const index = pointToIndex(point, width) * 4;
 
-        var currentColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
-
-        if (compareColors([data[index], data[index + 1], data[index + 2], data[index + 3]], color)) return;
+        var oldColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
+         
+        if (compareColors(oldColor, color)) return;
 
         queue.push(point);
 
         while(queue.length > 0){
             const p = queue.pop();
-            const index = pointToIndex(p, this.mainCanv.getWidth()) * 4;
-            const indexColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
+            const index = pointToIndex(p, width) * 4;
+            const currentColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
+
+            if (!compareColors(currentColor, oldColor)) continue;
 
             data[index]     = color[0];
             data[index + 1] = color[1];
             data[index + 2] = color[2];
             data[index + 3] = color[3];
 
-            if (p.x >= 0 && p.x < this.mainCanv.getWidth() && p.y >= 0 && p.y < this.mainCanv.getHeight() && compareColors(indexColor, currentColor)){
-                queue.push(new Point(p.x + 1, p.y));
-                queue.push(new Point(p.x - 1, p.y));
-                queue.push(new Point(p.x, p.y + 1));
-                queue.push(new Point(p.x, p.y - 1));
-            }
+            if (p.x + 2 < width) queue.push(new Point(p.x + 1, p.y));
+            if (p.x - 2 >= 0) queue.push(new Point(p.x - 1, p.y));
+            if (p.y + 2 < height) queue.push(new Point(p.x, p.y + 1));
+            if (p.y - 2 >= 0) queue.push(new Point(p.x, p.y - 1));
         }
-
+        
         this.mainCanv.putImageData(imgData);
         this.bufferCanv.clear();
         this.history.add(this.mainCanv.newBackup());
@@ -191,7 +193,7 @@ class CanvasControler{
     
     
     back(){
-        var backup = this.history.getBack();
+        var backup = this.history.previous();
 
         if (backup != null){
             this.mainCanv.clear();
@@ -201,7 +203,7 @@ class CanvasControler{
 
 
     front(){
-        var backup = this.history.getFront();
+        var backup = this.history.next();
 
         if (backup != null){
             this.mainCanv.clear();

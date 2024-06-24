@@ -1,14 +1,17 @@
 
-//class that do basic operation on canvas
 class Canvas{
+    /** 
+    * @param {HTMLCanvasElement} canvas 
+    */
     constructor(canvas){
         this.canvas = canvas;
-        this.setData("#000000", "#000000", 10);
+        this.setData("transparent", 10);
     }
 
     setData(color, size){
         var context = this.canvas.getContext("2d");
         context.lineWidth = size;
+        
         if (color === 'none'){
             context.globalCompositeOperation = 'destination-out';
 
@@ -17,8 +20,9 @@ class Canvas{
             context.strokeStyle = color;
             context.fillStyle = color;
         }
+
         context.lineCap = 'round';
-        context.lineJoin = "round";
+        context.lineJoin = 'round';
     }
 
     drawEllipse(point, r1, r2){
@@ -58,7 +62,6 @@ class Canvas{
         context.drawImage(source, x, y);
     }
     
-    //create a new canvas and copy this canvas to it as backup
     newBackup(){
         var backup = document.createElement('canvas');
         backup.width = this.canvas.width;
@@ -68,8 +71,12 @@ class Canvas{
         return backup;
     }
 
-    getImageData(){
-        return this.canvas.getContext("2d").getImageData(0, 0, this.canvas.width, this.canvas.height);
+    getImageData(willReadFrequently){
+        const ctx = this.canvas.getContext("2d",  {
+            willReadFrequently: Boolean(willReadFrequently)
+        })
+        
+        return ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
     }
 
     getWidth(){
