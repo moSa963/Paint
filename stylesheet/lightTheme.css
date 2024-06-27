@@ -22,7 +22,7 @@ nav{
     background-color: rgba(221, 221, 221, 0.301);
 }
 
-#canvasContainer{
+.canvas-container{
     background-color: #f0f8ff;
     background-image: url("../res/canvBackLight.svg");
 
@@ -38,33 +38,13 @@ nav{
     color: rgb(88, 88, 88);
 }
 
-.layer {
-    background-color: #d6d6d660;
-}
-
-.layerCard {
-    background-color: aliceblue;
-}
-
-.layerCard h2 {
+h2 {
     color: #bdbdbd;
 }
-
-.cardNav {
-    background-color: #c7c7c738;
-}
-
-.cardBody {
-    background-color: aliceblue;
-    color: #000000 !important;
-}
-
 
 #options ul {
     color: #000000 !important;
 }
-
-
 
 svg{
     fill: rgb(66, 66, 66);
