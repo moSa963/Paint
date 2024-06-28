@@ -5,7 +5,6 @@
     user-select: none;
 }
 
-
 ::-webkit-scrollbar {
     display: none;
 }
@@ -19,9 +18,7 @@ hr {
     margin-bottom: 20px;
     margin-left: 5px;
     margin-right: 5px;
-
 }
-
 
 @media only screen and (max-width: 900px) {
     .onLarge {
@@ -29,13 +26,21 @@ hr {
     }
 }
 
+body{
+    color: var(--text-primary);
+}
 
 p {
+    
     font-size: larger;
 }
 
 .clickable {
     cursor: pointer;
+}
+
+.clickable:hover {
+    background-color: var(--effect-hover) !important;
 }
 
 nav {
@@ -46,6 +51,7 @@ nav {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.61);
     z-index: 3;
     font-weight: bolder;
+    background-color: var(--background-3);
 }
 
 #toolBarControler {
@@ -99,6 +105,17 @@ nav {
     -webkit-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.473);
     box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.473);
     z-index: 1;
+    background-color: var(--background-2);
+}
+
+#toolBar li {
+    display: flex;
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    margin-bottom: 1px;
+    background-color: var(--background-3);
 }
 
 #workplace {
@@ -106,6 +123,7 @@ nav {
     position: relative;
     overflow: hidden;
     background-image: url("../res/back3.svg");
+    background-color: var(--background-1);
 }
 
 #toolBar ul {
@@ -116,15 +134,6 @@ nav {
 #toolBar .toolBarFooter {
     justify-self: flex-end;
     align-self: flex-end;
-}
-
-#toolBar li {
-    display: flex;
-    height: 50px;
-    width: 100%;
-    padding: 10px;
-    align-items: center;
-    margin-bottom: 1px;
 }
 
 #toolBar li p {
@@ -139,6 +148,8 @@ nav {
     -moz-box-shadow: 1px 1px 20px #00000071;
     -webkit-box-shadow: 1px 1px 20px #00000071;
     box-shadow: 1px 1px 20px #00000071;
+    background-color: var(--background-4);
+    background-image: url("../res/canvBackDark.svg");
 }
 
 .canvas {
@@ -155,6 +166,9 @@ nav {
     outline-style: none;
     padding: 5px;
     margin-left: 10px;
+
+    background-color: var(--background-1);
+    border: 1px solid var(--divider);
 }
 
 .selected {
@@ -186,7 +200,7 @@ nav {
 }
 
 
-#cursor{
+.cursor{
     position: absolute;
     border: 1px solid black;
     border-radius: 50%;
@@ -201,4 +215,8 @@ nav {
     right: 10px;
     bottom: 10px;
 
+}
+
+svg{
+    fill: var(--text-secondary);
 }
