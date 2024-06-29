@@ -1,24 +1,24 @@
 
 :root{
     --text-primary: rgb(50, 50, 50);
-    --text-secondary: rgb(100, 100, 100);
+    --text-secondary: rgb(80, 80, 80);
     --effect-hover: rgba(114, 114, 114, 0.8);
-    --background-1: #c0c0c0;
-    --background-2: rgba(201, 201, 201, 0.8);
-    --background-3: #c9c9c9f1;
-    --background-4: #e2e2e2;
+    --background-1: #fafafa;
+    --background-2: #eaeaea;
+    --background-3: #cacaca;
+    --background-4: #bababa;
     --canvas-background: url("../res/canvBackLight.svg");
     --divider: rgba(138, 138, 138, 0.671);
 }
 
 .dark{
     --text-primary: rgb(250, 250, 250);
-    --text-secondary: rgb(150, 150, 150);
+    --text-secondary: rgb(220, 220, 220);
     --effect-hover: rgba(121, 121, 121, 0.8);
-    --background-1: #5a5a5a;
-    --background-2: rgb(59, 59, 59, 0.8);
-    --background-3: #403c3ff1;
-    --background-4: #202020;
+    --background-1: #101010;
+    --background-2: #202020;
+    --background-3: #3a3a3a;
+    --background-4: #303030;
     --canvas-background: url("../res/canvBackDark.svg");
     --divider: rgba(138, 138, 138, 0.671);
 }
