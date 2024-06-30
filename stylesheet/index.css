@@ -14,8 +14,7 @@ a {
 }
 
 hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 8px;
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -43,7 +42,7 @@ p {
     background-color: var(--effect-hover) !important;
 }
 
-nav {
+#appBar {
     position: fixed;
     display: flex;
     width: 100%;
@@ -91,7 +90,7 @@ nav {
     flex-direction: row;
 }
 
-#toolBar {
+#toolsBar {
     display: flex;
     flex-direction: column;
     overflow: scroll;
@@ -103,14 +102,24 @@ nav {
     background-color: var(--background-2);
 }
 
-#toolBar li {
+#toolsBar li {
     display: flex;
     height: 50px;
     width: 100%;
+    aspect-ratio: 1 / 1;
     padding: 10px;
     align-items: center;
     margin-bottom: 1px;
     background-color: var(--background-3);
+}
+
+.icon{
+    width: 100%;
+    height: 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+    background-color: var(--text-primary);
 }
 
 #workplace {
@@ -121,17 +130,12 @@ nav {
     background-color: var(--background-1);
 }
 
-#toolBar ul {
+#toolsBar ul {
     display: flex;
     flex-direction: column;
 }
 
-#toolBar .toolBarFooter {
-    justify-self: flex-end;
-    align-self: flex-end;
-}
-
-#toolBar li p {
+#toolsBar li p {
     margin-left: 20px;
 }
 
@@ -139,8 +143,6 @@ nav {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    width: 1920px;
-    height: 1080px;
     -moz-box-shadow: 1px 1px 20px #00000071;
     -webkit-box-shadow: 1px 1px 20px #00000071;
     box-shadow: 1px 1px 20px #00000071;
@@ -173,29 +175,6 @@ nav {
     box-shadow: inset 1px 0px 3px #000000;
 }
 
-#options ul {
-    display: flex;
-    flex-direction: column;
-}
-
-#options li {
-    display: flex;
-    width: 100%;
-    min-height: 50px;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-}
-
-#options .textInput {
-    height: 40px;
-}
-
-#pageMod input{
-    width: 24px;
-}
-
-
 .cursor{
     position: absolute;
     border: 1px solid var(--text-primary);
@@ -204,7 +183,6 @@ nav {
     height: 50px;
     cursor: none;
 }
-
 
 #coordinates{
     position: fixed;
