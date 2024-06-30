@@ -1,137 +1,124 @@
 
-const indexToPoint = (index, width)=>{
-    return new Point(index % width, parseInt(index / width));
-}
-
-const pointToIndex = (point, width)=>{
-    return (parseInt(point.y) * width) + parseInt(point.x);
-}
-
-const compareColors = (c1, c2)=>{
-    return c1[0] === c2[0] && c1[1] === c2[1] && c1[2] === c2[2] && c1[3] === c2[3];
-}
-
-class CanvasController{
-    constructor(mainCanv, bufferCanv){
-        this.mainCanv = new Canvas(mainCanv);
-        this.bufferCanv = new Canvas(bufferCanv);
+class CanvasController {
+    constructor(mainCanvas, bufferCanvas) {
+        this.mainCanvas = new Canvas(mainCanvas);
+        this.bufferCanvas = new Canvas(bufferCanvas);
         this.startPoint = null;
         this.history = new HistoryQueue(100);
         this.tool = null;
-        this.history.add(this.mainCanv.newBackup());
+
+        this.history.add(this.mainCanvas.newBackup());
     }
 
-    setData(tool){
+    setTool(tool) {
         this.tool = tool;
-        onToolSizeChange();
-        this.mainCanv.setData(tool.color, tool.size);
-        this.bufferCanv.setData(tool.color, tool.size);
+        this.mainCanvas.setData(tool.color, tool.size);
+        this.bufferCanvas.setData(tool.color, tool.size);
     }
 
-    onClick(point){
-        if (this.tool.type == "mesh"){
-            this.startPoint = point;
-            this.bufferCanv.drawLine(point, new Point(point.x + 1, point.y+1));
-        }else if (this.tool.type == 'fill'){
+    onClick(point) {
+        if (this.tool.type == 'fill') {
             this.fill(point);
-        }else {
-            this.startPoint = point;
+            return;
+        }
+
+        this.startPoint = point;
+
+        if (this.tool.type == "mesh") {
+            this.bufferCanvas.drawLine(point, new Point(point.x + 1, point.y + 1));
         }
     }
 
-    onHold(point, isCtrlHold, isShiftHold){
-        if (this.startPoint != null){
-            if (this.tool.type == "mesh"){
+    onHold(point, ctrlKey, shiftKey) {
+        if (this.startPoint == null) {
+            return;
+        }
+
+        switch (this.tool.type) {
+            case "mesh":
                 this.drawMesh(point);
-            }else if (this.tool.type == "rect"){
-                this.drawRect(point, isShiftHold, isCtrlHold);
-            }else if (this.tool.type == "triangle"){
+                break;
+            case "rect":
+                this.drawRect(point, shiftKey, ctrlKey);
+                break;
+            case "triangle":
                 this.drawTriangle(point);
-            }else if (this.tool.type == "line"){
-                this.drawLine(point, isShiftHold, isCtrlHold);
-            }else if (this.tool.type == "ellipse"){
-                this.drawEllipse(point, isShiftHold, isCtrlHold);
-            }else{
+                break;
+            case "line":
+                this.drawLine(point, shiftKey, ctrlKey);
+                break;
+            case "ellipse":
+                this.drawEllipse(point, shiftKey, ctrlKey);
+                break;
+            default:
                 this.startPoint = null;
-            }
+                break;
         }
     }
 
-    onRelease(event){    
-        canvasControler.endDraw();
-    }
-
-    drawMesh(point){
-        this.mainCanv.drawLine(this.startPoint, point);
+    drawMesh(point) {
+        this.mainCanvas.drawLine(this.startPoint, point);
         this.startPoint = point;
     }
 
-    drawRect(point, isSquare, isCentered){
-        var sp = new Point(this.startPoint.x, this.startPoint.y);
-        this.bufferCanv.clear();
-        this.rectPointTrans(sp,point, isSquare, isCentered);
-        this.bufferCanv.drawRect(sp, point);
+    drawRect(point, square, centered) {
+        this.bufferCanvas.clear();
+        this.bufferCanvas.drawRect(this.startPoint, point);
     }
 
-    drawTriangle(point){
-        this.bufferCanv.clear();
-        this.bufferCanv.drawTriangle(this.startPoint, point);
-    }
-    
-    drawLine(point, isPerfect, isCentered){
-        var sp = new Point(this.startPoint.x, this.startPoint.y);
-        this.bufferCanv.clear();
-        this.linePointTrans(sp,point, isPerfect, isCentered);
-        this.bufferCanv.drawLine(sp, point);
+    drawTriangle(point) {
+        this.bufferCanvas.clear();
+        this.bufferCanvas.drawTriangle(this.startPoint, point);
     }
 
-    drawEllipse(point, isPerfect, isCentered){
-        this.bufferCanv.clear();
-        var sp = new Point(this.startPoint.x, this.startPoint.y);
-        var center;
+    drawLine(point, perfect, centered) {
+        this.bufferCanvas.clear();
+        this.bufferCanvas.drawLine(this.startPoint, point);
+    }
 
-        this.rectPointTrans(sp, point, isPerfect, false);
+    drawEllipse(point, circle, centered) {
+        this.bufferCanvas.clear();
+        var center = this.startPoint;
 
-        if (isCentered){
-            center = sp;
-        }else{
-            center = new Point(sp.x + (point.x - sp.x) / 2, sp.y + (point.y - sp.y) / 2);
+        if (!centered) {
+            center = new Point(this.startPoint.x + (point.x - this.startPoint.x) / 2,
+                this.startPoint.y + (point.y - this.startPoint.y) / 2);
         }
 
-        this.bufferCanv.drawEllipse(center, (point.x - sp.x) /  2, (point.y - sp.y) /2);
+        this.bufferCanvas.drawEllipse(center, (point.x - this.startPoint.x) / 2, (point.y - this.startPoint.y) / 2);
     }
 
-    fill(point){
+    fill(point) {
         const colorString = this.tool.color;
 
-        const color  = [
+        const color = [
             parseInt(colorString.slice(1, 3), 16),
             parseInt(colorString.slice(3, 5), 16),
             parseInt(colorString.slice(5, 7), 16),
             255
         ];
-        
-        const imgData = this.mainCanv.getImageData(true);
+
+        const imgData = this.mainCanvas.getImageData(true);
         const data = imgData.data;
         const queue = new Array();
-        const width = this.mainCanv.getWidth();
-        const height = this.mainCanv.getHeight();
+        const width = this.mainCanvas.getWidth();
+        const height = this.mainCanvas.getHeight();
         const index = pointToIndex(point, width) * 4;
 
         var oldColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
-         
+
         if (compareColors(oldColor, color)) return;
 
         queue.push(point);
 
-        while(queue.length > 0){
+        while (queue.length > 0) {
             const p = queue.pop();
             const index = pointToIndex(p, width) * 4;
             const currentColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
 
             if (!compareColors(currentColor, oldColor)) continue;
 
-            data[index]     = color[0];
+            data[index] = color[0];
             data[index + 1] = color[1];
             data[index + 2] = color[2];
             data[index + 3] = color[3];
@@ -141,87 +128,51 @@ class CanvasController{
             if (p.y + 2 < height) queue.push(new Point(p.x, p.y + 1));
             if (p.y - 2 >= 0) queue.push(new Point(p.x, p.y - 1));
         }
-        
-        this.mainCanv.putImageData(imgData);
-        this.bufferCanv.clear();
-        this.history.add(this.mainCanv.newBackup());
+
+        this.mainCanvas.putImageData(imgData);
+        this.bufferCanvas.clear();
+        this.history.add(this.mainCanvas.newBackup());
     }
 
-    endDraw(){
-        if (this.startPoint != null){
-            this.mainCanv.drawImage(this.bufferCanv.canvas, 0, 0);
-            this.bufferCanv.clear();
-            this.history.add(this.mainCanv.newBackup());
+    endDraw() {
+        if (this.startPoint == null) {
+            return;
         }
 
+        this.mainCanvas.drawImage(this.bufferCanvas.canvas, 0, 0);
+        this.bufferCanvas.clear();
+        this.history.add(this.mainCanvas.newBackup());
         this.startPoint = null;
     }
 
+    previous() {
+        this.drawImage(this.history.previous());
+    }
 
-    rectPointTrans(point1, point2, isSquare, isCentered){
-        var width = point2.x - point1.x;
-        var height = point2.y - point1.y;
+    next() {
+        this.drawImage(this.history.next());
+    }
 
-        if (isSquare){
-            if (width > height){
-                point2.x = point1.x + height;
-            }else{
-                point2.y = point1.y +  width;
-            }
+    drawImage(source) {
+        if (source == null) {
+            return;
         }
 
-        if (isCentered){
-            point1.x -= width / 2;
-            point1.y -= height / 2;
-            point2.x = point1.x + width;
-            point2.y = point1.y + height;
-        }
+        this.mainCanvas.clear();
+        this.mainCanvas.drawImage(source, 0, 0);
     }
 
-    linePointTrans(point1, point2, isPerfect, isCentered){
-        var y = point2.y - point1.y;
-        var x = point2.x - point1.x;
-        
-        if (isPerfect){
-            if (Math.abs(y) > Math.abs(x)){
-                point2.x = point1.x;
-            }else{
-                point2.y = point1.y;
-            }
-        }
-    }
-    
-    
-    back(){
-        var backup = this.history.previous();
-
-        if (backup != null){
-            this.mainCanv.clear();
-            this.mainCanv.drawImage(backup, 0, 0);
-        }
+    getRect() {
+        return this.bufferCanvas.canvas.getBoundingClientRect();
     }
 
-
-    front(){
-        var backup = this.history.next();
-
-        if (backup != null){
-            this.mainCanv.clear();
-            this.mainCanv.drawImage(backup, 0, 0);
-        }
+    reset() {
+        this.mainCanvas.clear();
+        this.bufferCanvas.clear();
     }
 
-    getRect(){
-        return this.bufferCanv.canvas.getBoundingClientRect();
-    }
-
-    reset(){
-        this.mainCanv.clear();
-        this.bufferCanv.clear();
-    }
-
-    getImg(){
-        return this.mainCanv.canvas.toDataURL("image/png");
+    getImg() {
+        return this.mainCanvas.canvas.toDataURL("image/png");
     }
 
 }
