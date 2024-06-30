@@ -17,9 +17,6 @@ class MouseEvents {
 
         this.element.onmousemove = (e) => {
             this.onMouseMove(e);
-            if (this.holding) {
-                this.onDrag(e);
-            }
         }
 
         this.element.onmouseenter = (e) => {
@@ -36,6 +33,12 @@ class MouseEvents {
 
         this.onRelease = this.onRelease.bind(this)
         window.addEventListener('mouseup', this.onRelease);
+
+        window.addEventListener('mousemove', (e) => {
+            if (this.holding) {
+                this.onDrag(e);
+            }
+        });
     }
 
     onMouseDown(e) { }
