@@ -30,12 +30,10 @@ class ElementController {
 
     onRelease(e) {
         if (this.startPoint != null) {
-            var left = e.clientX - this.startPoint.x + this.left;
-            var top = e.clientY - this.startPoint.y + this.top;
-            this.element.style.left = left + "px";
-            this.element.style.top = top + "px";
-            this.left = left;
-            this.top = top;
+            this.left = e.clientX - this.startPoint.x + this.left;
+            this.top = e.clientY - this.startPoint.y + this.top;
+            this.element.style.left = this.left + "px";
+            this.element.style.top = this.top + "px";
             this.startPoint = null;
         }
     }
