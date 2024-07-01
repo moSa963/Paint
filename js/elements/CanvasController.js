@@ -89,47 +89,36 @@ class CanvasController {
     }
 
     fill(point) {
-        const colorString = this.tool.color;
-
-        const color = [
-            parseInt(colorString.slice(1, 3), 16),
-            parseInt(colorString.slice(3, 5), 16),
-            parseInt(colorString.slice(5, 7), 16),
+        const color = new Color(
+            parseInt(this.tool.color.slice(1, 3), 16),
+            parseInt(this.tool.color.slice(3, 5), 16),
+            parseInt(this.tool.color.slice(5, 7), 16),
             255
-        ];
+        );
 
-        const imgData = this.mainCanvas.getImageData(true);
-        const data = imgData.data;
+        const imgData = new CanvasImageData(this.mainCanvas.getImageData(true));
         const queue = new Array();
-        const width = this.mainCanvas.getWidth();
-        const height = this.mainCanvas.getHeight();
-        const index = pointToIndex(point, width) * 4;
 
-        var oldColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
-
-        if (compareColors(oldColor, color)) return;
+        const oldColor = imgData.getColor(point);
+        if (oldColor.compare(color)) return;
 
         queue.push(point);
 
         while (queue.length > 0) {
             const p = queue.pop();
-            const index = pointToIndex(p, width) * 4;
-            const currentColor = [data[index], data[index + 1], data[index + 2], data[index + 3]];
+            const currentColor = imgData.getColor(p);
 
-            if (!compareColors(currentColor, oldColor)) continue;
+            if (!oldColor.compare(currentColor)) continue;
 
-            data[index] = color[0];
-            data[index + 1] = color[1];
-            data[index + 2] = color[2];
-            data[index + 3] = color[3];
+            imgData.setColor(p, color);
 
-            if (p.x + 2 < width) queue.push(new Point(p.x + 1, p.y));
-            if (p.x - 2 >= 0) queue.push(new Point(p.x - 1, p.y));
-            if (p.y + 2 < height) queue.push(new Point(p.x, p.y + 1));
-            if (p.y - 2 >= 0) queue.push(new Point(p.x, p.y - 1));
+            if (p.x + 1 < imgData.getWidth()) queue.push(new Point(p.x + 1, p.y));
+            if (p.x - 1 >= 0) queue.push(new Point(p.x - 1, p.y));
+            if (p.y + 1 < imgData.getHeight()) queue.push(new Point(p.x, p.y + 1));
+            if (p.y - 1 >= 0) queue.push(new Point(p.x, p.y - 1));
         }
 
-        this.mainCanvas.putImageData(imgData);
+        this.mainCanvas.putImageData(imgData.source);
         this.bufferCanvas.clear();
         this.history.add(this.mainCanvas.newBackup());
     }
