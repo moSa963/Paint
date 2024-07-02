@@ -53,34 +53,19 @@ p {
     background-color: var(--background-3);
 }
 
+#appBar div{
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #toolBarController {
     flex-basis: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-#controlBar {
-    flex: 2;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#controlBar ul {
-    display: flex;
-    height: 100%;
-    flex-direction: row;
-    margin-right: 20px;
-}
-
-#controlBar li {
-    display: flex;
-    height: 100%;
-    padding: 10px;
-    align-items: center;
-    margin-bottom: 1px;
-    cursor: pointer;
 }
 
 #mainContainer {
