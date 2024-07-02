@@ -4,89 +4,46 @@
         <title>Paint</title>
         <meta charset="UTF-16">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="stylesheet/root.css" rel="stylesheet" >
         <link href="stylesheet/index.css" rel="stylesheet" >
-        <link id="cssMode" href="stylesheet/darkTheme.css" rel="stylesheet" >
         <link rel="icon" href="" type="image/icon">
-
-        <script src="js/utility.js"></script>
-        <script src="js/canvasBasic.js"></script>
-        <script src="js/index.js"></script>
-        <script src="js/canvasControler.js"></script>
-        <script src="js/events.js"></script>
         
     </head>
-    <body>
-
-        <div id="information" class="layer">
-            <div class="layerCard">
-                <div class="cardNav">
-                    <svg class="cardExit clickable" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" ><path d="M19.002,3h-14c-1.103,0-2,0.897-2,2v4h2V5h14v14h-14v-4h-2v4c0,1.103,0.897,2,2,2h14c1.103,0,2-0.897,2-2V5 C21.002,3.897,20.104,3,19.002,3z"></path><path d="M11 16L16 12 11 8 11 11.001 3 11.001 3 13.001 11 13.001z"></path></svg>
-                </div>
-                <div class="cardBody">
-                    <h2>INFORMATION</h2>
-                    <ul id="infoCard">
-                        <li>tools: 
-                            <ul>
-                                <li>select: to move or scale the page<br>you can move the page from any tool by clicking the middle mouse button and move</li>
-                                <li>pencil: to write on the page</li>
-                                <li>brush: to draw on the page, you can change the size by scroll the mouse wheel or from the size box.</li>
-                                <li>eraser: to erase from the page.</li>
-                                <li>rectangle: to draw a rectangle you can change fill color and stroke color and size, you can click shift while drawing to draw a square.</li>
-                                <li>line: to a line, you can click shift while drawing to draw a perfect line.</li>
-                                <li>ellipse: to draw an ellipse, you can click shift while drawing to draw a circle.</li>
-                            </ul>
-                        </li>
-                        <li>click <em>controle+z</em> to go back and <em>controle+y</em> to go forward.</li>
-                        <hr>
-
-                    </ul>
-                </div>
+    <body class="dark">
+        <div id="appBar">
+            <div id="toolBarController" class="clickable">
             </div>
+            <div style="flex-grow: 1;"></div>
+            <div id="colorPicker" style="display: none;"><p class="onLarge">Color</p><input class="textInput" type="color"></div>
+            <div id="sizeInput" style="display: none;"><p class="onLarge">Size</p><input class="textInput" type="number" name="Size" placeholder="Size"></div>
+            <div id="resetButton" class="clickable"><p>Reset</p></div>
+            <div id="saveButton" class="clickable"><a download="newImg.png"><p>Save</p></a></div>
         </div>
-
-        
-        <nav>
-            <div id="toolBarControler" class="clickable">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" ><path d="M4 6H20V8H4zM4 11H20V13H4zM4 16H20V18H4z"></path></svg>
-            </div>
-
-            <div id="controlBar">
-                <ul >
-                    <li id="colorPicker" style="display: none;"><p class="onLarge">Color</p><input class="textInput" type="color"></li>
-                    <li id="size" style="display: none;"><p class="onLarge">Size</p><input class="textInput" type="number" name="Size" placeholder="Size"></li>
-                    <li id="reset" class="clickable"><p>Reset</p></li>
-                    <li id="save" class="clickable"><a download="newImg.png"><p>Save</p></a></li>
-                </ul>
-            </div>
-        </nav>
 
         <div id="mainContainer">
-            <div id="toolBar">
-                <ul class="tools">
-                    <li id="select" class="clickable selected" title="Move"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M20.978,13.21c0.084-0.39-0.072-0.792-0.396-1.024l-14-10c-0.321-0.23-0.75-0.249-1.09-0.047 C5.15,2.34,4.961,2.724,5.007,3.117l2,17c0.047,0.398,0.327,0.73,0.713,0.843C7.813,20.987,7.906,21,8,21 c0.295,0,0.581-0.131,0.774-0.367l3.612-4.416l3.377,5.46l1.701-1.052l-3.357-5.428l6.089-1.218 C20.587,13.902,20.895,13.6,20.978,13.21z M12.304,13.52c-0.227,0.045-0.431,0.168-0.578,0.347l-3.008,3.677L7.257,5.127 l10.283,7.345L12.304,13.52z"></path></svg></li>
-                    <li id="pencil" class="clickable"  title="Pencil"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path fill="none" d="M16.589 9L15.003 7.414 5.906 16.511 5.377 18.625 7.491 18.097z"></path><path transform="rotate(134.999 18.003 6)" fill="none" d="M16.882 4.879H19.125V7.122H16.882z"></path><path d="M4.003,21c0.081,0,0.162-0.01,0.242-0.03l4-1c0.176-0.044,0.337-0.135,0.465-0.263L21.003,7.414 c0.378-0.378,0.586-0.88,0.586-1.414s-0.208-1.036-0.586-1.414L19.417,3c-0.756-0.756-2.072-0.756-2.828,0L4.296,15.293 c-0.128,0.128-0.219,0.289-0.263,0.464l-1,4c-0.086,0.341,0.015,0.701,0.263,0.95C3.485,20.897,3.741,21,4.003,21z M18.003,4.414 L19.589,6l-1.586,1.586L16.417,6L18.003,4.414z M5.906,16.511l9.097-9.097L16.589,9l-9.098,9.097l-2.114,0.528L5.906,16.511z"></path></svg></li>
-                    <li id="fill" class="clickable" title="Fill"><svg width="24" height="24" viewBox="0 0 576 512"  xmlns="http://www.w3.org/2000/svg" ><path d="M512 320s-64 92.65-64 128c0 35.35 28.66 64 64 64s64-28.65 64-64-64-128-64-128zm-9.37-102.94L294.94 9.37C288.69 3.12 280.5 0 272.31 0s-16.38 3.12-22.62 9.37l-81.58 81.58L81.93 4.76c-6.25-6.25-16.38-6.25-22.62 0L36.69 27.38c-6.24 6.25-6.24 16.38 0 22.62l86.19 86.18-94.76 94.76c-37.49 37.48-37.49 98.26 0 135.75l117.19 117.19c18.74 18.74 43.31 28.12 67.87 28.12 24.57 0 49.13-9.37 67.87-28.12l221.57-221.57c12.5-12.5 12.5-32.75.01-45.25zm-116.22 70.97H65.93c1.36-3.84 3.57-7.98 7.43-11.83l13.15-13.15 81.61-81.61 58.6 58.6c12.49 12.49 32.75 12.49 45.24 0s12.49-32.75 0-45.24l-58.6-58.6 58.95-58.95 162.44 162.44-48.34 48.34z"/></svg></li>
-                    <li id="brush" class="clickable" title="Brush"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="m451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133-43.707 54.635-7.118 103.391-48.345 146.862-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59 1.855-34.647-25.034-60.266-60.256-56.564zm-270.205 445.155c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zm297.435-241.354c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/></svg></li>
-                    <li id="eraser" class="clickable" title="Eraser"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M2.586,15.408l4.299,4.299C7.072,19.895,7.326,20,7.592,20h0.001h2h0.4h9.6v-2h-6.958l7.222-7.222 c0.78-0.779,0.78-2.049,0-2.828L14.906,3c-0.779-0.779-2.049-0.779-2.828,0l-4.75,4.749l-4.754,4.843 C1.809,13.371,1.813,14.634,2.586,15.408z M13.492,4.414l4.95,4.95l-2.586,2.586L10.906,7L13.492,4.414z M8.749,9.156l0.743-0.742 l4.95,4.95l-4.557,4.557C9.86,17.946,9.838,17.973,9.816,18H9.593H8.006l-4.005-4.007L8.749,9.156z"></path></svg></li>
-                    <li id="line" class="clickable" title="Line"><?xml version="1.0" ?><svg width='24' height='24' version="1.1" viewBox="0 0 50 50" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Layer_1"><rect height="2" width="48" x="1" y="24"/></g><g/></svg></li>
-                    <li id="rectangle" class="clickable" title="Rectangle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M20,3H4C2.897,3,2,3.897,2,5v14c0,1.103,0.897,2,2,2h16c1.103,0,2-0.897,2-2V5C22,3.897,21.103,3,20,3z M4,19V5h16 l0.001,14H4z"></path></svg></li>
-                    <li id="ellipse" class="clickable" title="Ellipse"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M12,2C6.486,2,2,6.486,2,12c0.001,5.515,4.487,10.001,10,10.001c5.514,0,10-4.486,10.001-10.001 C22.001,6.486,17.515,2,12,2z M12,20.001c-4.41,0-7.999-3.589-8-8.001c0-4.411,3.589-8,8-8c4.412,0,8.001,3.589,8.001,8 C20,16.412,16.411,20.001,12,20.001z"></path></svg></li>
-                    <li id="triangle" class="clickable" title="Triangle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18,15c-0.183,0-0.358,0.022-0.532,0.054L8.946,6.532C8.978,6.359,9,6.182,9,6c0-1.654-1.346-3-3-3S3,4.346,3,6 c0,1.302,0.839,2.401,2,2.815v6.369C3.839,15.599,3,16.698,3,18c0,1.654,1.346,3,3,3c1.302,0,2.401-0.838,2.815-2h6.369 c0.414,1.162,1.514,2,2.815,2c1.654,0,3-1.346,3-3S19.654,15,18,15z M7,15.184V8.816c0.329-0.118,0.629-0.291,0.894-0.508 l7.799,7.799c-0.218,0.265-0.391,0.564-0.508,0.894H8.815C8.514,16.153,7.848,15.486,7,15.184z M6,5c0.552,0,1,0.449,1,1 S6.552,7,6,7S5,6.551,5,6S5.448,5,6,5z M6,19c-0.552,0-1-0.449-1-1s0.448-1,1-1s1,0.449,1,1S6.552,19,6,19z M18,19 c-0.552,0-1-0.449-1-1s0.448-1,1-1s1,0.449,1,1S18.552,19,18,19z"></path></svg></li>
-                </ul>
-                <hr>
-                <ul class="toolBarFooter">
-                    <li id="info" class="clickable" title="Information"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8s3.589-8,8-8 s8,3.589,8,8S16.411,20,12,20z"></path><path d="M11 11H13V17H11zM11 7H13V9H11z"></path></svg></li>
-                    <li id="pageMod" class="clickable" title="Dark Mode"><input id="modeRange" type="range" min="0" max="1"></li>
-                </ul>
+            <div id="toolsBar">
+
             </div>
+            
             <div id="workplace">
-                <div id="canvasContainer">
-                    <canvas id="mainCanv" class="canv" width="1920px" height="1080px"> </canvas>
-                    <canvas id="bufferCanv" class="canv" width="1920px" height="1080px"></canvas>
-                </div>
+
             </div>
         </div>
-        <div id="cursor" style="display: none; pointer-events: none;" ></div>
+
         <p id="coordinates" >0/0</p>
+        
     </body>
+    <script src="js/utility.js"></script>
+    <script src="js/elements/CanvasImageData.js"></script>
+    <script src="js/elements/Tools.js"></script>
+    <script src="js/elements/AppBar.js"></script>
+    <script src="js/elements/ToolsBar.js"></script>
+    <script src="js/elements/MouseEvents.js"></script>
+    <script src="js/elements/Cursor.js"></script>
+    <script src="js/elements/ElementController.js"></script>
+    <script src="js/elements/HistoryQueue.js"></script>
+    <script src="js/elements/Canvas.js"></script>
+    <script src="js/elements/CanvasController.js"></script>
+    <script src="js/elements/Workplace.js"></script>
+    <script src="js/index.js"></script>
 </html>
