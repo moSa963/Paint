@@ -9,6 +9,7 @@
     --background-4: #bababa;
     --canvas-background: url("../res/canvBackLight.svg");
     --divider: rgba(138, 138, 138, 0.671);
+    --icon-invert: 0%
 }
 
 .dark{
@@ -21,4 +22,5 @@
     --background-4: #303030;
     --canvas-background: url("../res/canvBackDark.svg");
     --divider: rgba(138, 138, 138, 0.671);
+    --icon-invert: 100%
 }

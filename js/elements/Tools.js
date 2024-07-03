@@ -6,7 +6,7 @@ const tools = {
         resizable: false,
         selectableColor: false,
         cursor: 'move',
-        icon: "selectIcon.svg",
+        icon: "select",
     },
     "pencil": {
         size: 5,
@@ -15,7 +15,7 @@ const tools = {
         resizable: false,
         selectableColor: false,
         cursor: 'draw',
-        icon: "pencilIcon.svg",
+        icon: "pencil",
     },
     "fill": {
         size: 1,
@@ -24,7 +24,7 @@ const tools = {
         resizable: false,
         selectableColor: true,
         cursor: 'crosshair',
-        icon: "fillIcon.svg",
+        icon: "fill",
     },
     "brush": {
         size: 10,
@@ -33,7 +33,7 @@ const tools = {
         resizable: true,
         selectableColor: true,
         cursor: 'draw',
-        icon: "brushIcon.svg",
+        icon: "brush",
     },
     "eraser": {
         size: 10,
@@ -42,7 +42,7 @@ const tools = {
         resizable: true,
         selectableColor: false,
         cursor: 'draw',
-        icon: "eraserIcon.svg",
+        icon: "eraser",
     },
     "line": {
         size: 10,
@@ -51,7 +51,7 @@ const tools = {
         resizable: true,
         selectableColor: true,
         cursor: 'draw',
-        icon: "lineIcon.svg",
+        icon: "line",
     },
     "rectangle": {
         size: 1,
@@ -60,7 +60,7 @@ const tools = {
         resizable: true,
         selectableColor: true,
         cursor: 'draw',
-        icon: "rectangleIcon.svg",
+        icon: "rectangle",
     },
     "ellipse": {
         size: 1,
@@ -69,7 +69,7 @@ const tools = {
         resizable: true,
         selectableColor: true,
         cursor: 'draw',
-        icon: "ellipseIcon.svg",
+        icon: "ellipse",
     },
     "triangle": {
         size: 1,
@@ -78,7 +78,7 @@ const tools = {
         resizable: true,
         selectableColor: true,
         cursor: 'draw',
-        icon: "triangleIcon.svg",
+        icon: "triangle",
     },
 
 };

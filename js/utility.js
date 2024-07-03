@@ -9,8 +9,7 @@ const getIcon = (name) => {
     const icon = document.createElement('div');
     icon.className = "icon";
 
-    icon.style.maskImage = `url(../res/${name})`;
-    icon.style.mask
+    icon.style.backgroundImage = `url(./res/${name}Icon.svg)`;
     return icon;
 }
 

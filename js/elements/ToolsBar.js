@@ -36,7 +36,7 @@ class ToolsBar {
         tool.onclick = () => {
             this.themeToggle(tool);
         }
-        tool.appendChild(getIcon('lightIcon.svg'));
+        tool.appendChild(getIcon('light'));
         toolsContainer.appendChild(tool);
         this.container.appendChild(toolsContainer);
     }
@@ -58,11 +58,11 @@ class ToolsBar {
             body.classList.remove('dark');
 
             tool.innerHTML = "";
-            tool.appendChild(getIcon('darkIcon.svg'));
+            tool.appendChild(getIcon('dark'));
         } else {
             body.classList.add('dark');
             tool.innerHTML = "";
-            tool.appendChild(getIcon('lightIcon.svg'));
+            tool.appendChild(getIcon('light'));
         }
     }
 
