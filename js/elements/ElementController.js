@@ -38,7 +38,7 @@ class ElementController {
         }
     }
 
-    scale(count, min = 200, max = 3000) {
+    scale(count, min = 200, max = 6000) {
         this.width += count;
 
         if (this.width < min) {
