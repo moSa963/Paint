@@ -3,6 +3,11 @@ class Point {
         this.x = x;
         this.y = y;
     }
+
+    compare(point) {
+        return point.x === this.x
+            && point.y === this.y;
+    }
 }
 
 const getIcon = (name) => {
