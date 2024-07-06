@@ -48,8 +48,13 @@ window.addEventListener('wheel', (e) => {
     if (!tool.resizable) {
         return;
     }
+    tool.size += e.deltaY > 0 ? 1 : -1;
 
-    appBar.setSize(e.deltaY > 0 ? tool.size++ : tool.size--);
+    if (tool.size < 1) {
+        tool.size = 1;
+    }
+
+    appBar.setSize();
 
     newToolSelected(tool);
 });
