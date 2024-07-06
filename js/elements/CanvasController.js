@@ -108,9 +108,9 @@ class CanvasController {
             const p = queue.pop();
             const currentColor = imgData.getColor(p);
 
-            if (!oldColor.compare(currentColor)) continue;
-
             imgData.setColor(p, color);
+
+            if (!oldColor.compare(currentColor)) continue;
 
             if (p.x + 1 < imgData.getWidth()) queue.push(new Point(p.x + 1, p.y));
             if (p.x - 1 >= 0) queue.push(new Point(p.x - 1, p.y));
