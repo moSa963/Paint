@@ -32,7 +32,18 @@ class CanvasImageData {
         return (Math.floor(point.y) * this.source.width) + Math.floor(point.x);
     }
 
+    isPointOut(point) {
+        return point.x < 0
+            || point.y < 0
+            || point.x >= this.source.width
+            || point.y >= this.source.height;
+    }
+
     getColor(point) {
+        if (this.isPointOut(point)) {
+            return null;
+        }
+
         const i = this.pointToIndex(point, this.source.width) * 4;
         return new Color(
             this.source.data[i],
